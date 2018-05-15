@@ -1,5 +1,6 @@
 
 public class Player {
+	//Testnachricht
 	int index;
 	String name;
 	String color;
