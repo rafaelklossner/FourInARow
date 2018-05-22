@@ -24,7 +24,7 @@ public class GameGrid {
 	 */
 	int placeStone(int col, Player player){
 		int row;
-		row = getrowIndex(col);
+		row = getRowIndex(col);
 		if(row < ROW) { // prüfe ob Platz frei
 			grid[col][row] = player.index;
 			return checkWin(col, row);
@@ -38,7 +38,7 @@ public class GameGrid {
 	 * @param col gibt die Spalte an in der der Index gesucht wird
 	 * @return row Index der Reihe (beginnt bei 0)
 	 */
-	private int getrowIndex(int col) {
+	private int getRowIndex(int col) {
 		int row = 0; 
 		while(grid[col][row] == 0) {
 			row++;
@@ -53,7 +53,7 @@ public class GameGrid {
 	 * @param col aktuelle Spalte (beginnt bei 0)
 	 * @param playerIndex or 0
 	 */
-	public int checkWin(int row, int col) {
+	private int checkWin(int row, int col) {
 		int player = grid[row][col];
 		if (player == 0) {
 			return player; // there is no stone
