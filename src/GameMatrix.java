@@ -8,20 +8,15 @@ public class GameMatrix extends Canvas{
 	int lengthMatrix;
 	int heightMatrix;
 	int dotRadius;
-	int border;
-	int gameBoard [][];//=new int [lengthMatrix][heightMatrix];
+	int gameBoard [][];
 
 
-	GameMatrix(Color backgroundColor, int lengthMatrix, int heightMatrix, int dotRadius, int border, int gameBoard[][]){
+	GameMatrix(Color backgroundColor, int lengthMatrix, int heightMatrix, int dotRadius, int gameBoard[][]){
 		this.backgroundColor = backgroundColor;
 		this.lengthMatrix = lengthMatrix;
 		this.heightMatrix = heightMatrix;
 		this.dotRadius = dotRadius;	
-		this.border = border;
 		this.gameBoard = gameBoard;
-
-
-
 	}
 
 	public void paint (Graphics grid) {
