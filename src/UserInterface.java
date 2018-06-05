@@ -9,8 +9,11 @@ public class UserInterface extends Frame implements ActionListener{
 	int heightMatrix;
 	int dotRadius;	//responsible for Window Size
 	int gameBoard [][];
-	GameMatrix gameMatrix1;
-	UserInterface(String Title,int lengthMatrix, int heightMatrix, int dotRadius, int gameBoard[][]){
+	
+	public GameGrid gameGrid = new GameGrid();
+	
+	GameCanvas gameMatrix1;
+	UserInterface(String Title,int lengthMatrix, int heightMatrix, int dotRadius){
 		super(Title);
 		this.lengthMatrix = lengthMatrix;
 		this.heightMatrix = heightMatrix;
@@ -38,7 +41,7 @@ public class UserInterface extends Frame implements ActionListener{
 		add(BorderLayout.NORTH, buttonPanel);
 
 		
-		gameMatrix1 = new GameMatrix(Color.BLUE, lengthMatrix, heightMatrix, dotRadius, gameBoard);
+		gameMatrix1 = new GameCanvas(this /*Color.BLUE, lengthMatrix, heightMatrix, dotRadius, gameBoard*/);
 		add(BorderLayout.CENTER, gameMatrix1);		
 
 		//to repaint: gameMatrix1.paint
@@ -81,6 +84,33 @@ public class UserInterface extends Frame implements ActionListener{
 
 	public void actionPerformed(ActionEvent event) {
 		rowPressed= event.getActionCommand();
+		switch(rowPressed) {
+		case "Spalte 0" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 1" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 2" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 3" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 4" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 5" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		case "Spalte 6" :
+			gameGrid.placeStone(0, gameGrid.player);
+			break;
+		default:
+			System.out.println("Invalid button press");
+			break;
+			
+		}
 		gameMatrix1.repaint();
 		textField1.setText(rowPressed);
 		
