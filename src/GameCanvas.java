@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GameCanvas extends Canvas{
+	private static final long serialVersionUID = 1L;
 	private UserInterface userInterface;
 	
 	GameCanvas(UserInterface userInterface){
@@ -28,7 +29,7 @@ public class GameCanvas extends Canvas{
 					grid.setColor(Color.WHITE);
 				}
 
-				grid.fillOval(x*FourInARow.DOTRADIUS, (FourInARow.ROW-1-y)*FourInARow.DOTRADIUS, FourInARow.DOTRADIUS, FourInARow.DOTRADIUS);
+				grid.fillOval(x*FourInARow.DOTRADIUS, (y)*FourInARow.DOTRADIUS, FourInARow.DOTRADIUS, FourInARow.DOTRADIUS);
 
 			}
 		}

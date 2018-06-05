@@ -23,18 +23,21 @@ public class GameGrid {
 	 * @param player Player der den Stein spielt
 	 * @return error Message (0=continue, 1 Player1 wins, 2 Player2 wins, -1 error)
 	 */
-	int placeStone(int col, int player){
+	int placeStone(int col){
 		int row;
 		row = getRowIndex(col);
-		if(row < FourInARow.ROW) { // prüfe ob Platz frei
+		if(row >= 0) { // prüfe ob Platz frei
 			grid[col][row] = player;
+			System.out.println("col: " + col + " row: " + row);
 			if(player == 1) {
 				player = 2;
 			}else {
 				player = 1;
 			}
-			return checkWin(col, row);
+			System.out.println("checkWin result: " + checkWin(col, row));
+			return checkWin(col, row) ;
 		}else {
+			System.out.println("Col is full");
 			return -1; // Error
 		}
 	}
@@ -45,12 +48,12 @@ public class GameGrid {
 	 * @return row Index der Reihe (beginnt bei 0)
 	 */
 	private int getRowIndex(int col) {
-		int row = 0; 
-		while(grid[col][row] == 0 && row < FourInARow.ROW - 1) {
-			row++;
+		for(int row=0; row < FourInARow.ROW; row++) {
+			if(grid[col][row] != 0) {
+				return row-1;
+			}
 		}
-		row--;
-		return row;
+		return FourInARow.ROW - 1;
 	}
 
 	/**
@@ -59,52 +62,56 @@ public class GameGrid {
 	 * @param col aktuelle Spalte (beginnt bei 0)
 	 * @param playerIndex or 0
 	 */
-	private int checkWin(int row, int col) {
-		int player = grid[row][col];
+	private int checkWin(int col, int row) {
+		int player = grid[col][row];
 		if (player == 0) {
 			return player; // there is no stone
 		}
 
-		if(row - 3 >= 0) { // down in all 3 directions
-			if (player == grid[row-1][col] && // look down
-					player == grid[row-2][col] &&
-					player == grid[row-3][col])
+		if(row - 3 >= 0) { // up in all 3 directions
+			if (player == grid[col][row-1] && // look up
+					player == grid[col][row-2] &&
+					player == grid[col][row-3])
 				return player;
 			if (col - 3 >= 0 &&
-					player == grid[row-1][col-1] && // look down & left
-					player == grid[row-2][col-2] &&
-					player == grid[row-3][col-3])
+					player == grid[col-1][row-1] && // look up & left
+					player == grid[col-2][row-2] &&
+					player == grid[col-3][row-3])
 				return player;
 			if (col + 3 < FourInARow.COL &&
-					player == grid[row-1][col+1] && // look down & right
-					player == grid[row-2][col+2] &&
-					player == grid[row-3][col+3])
+					player == grid[col+1][row-1] && // look up & right
+					player == grid[col+2][row-2] &&
+					player == grid[col+3][row-3])
 				return player;
 		}
 
-		if (row + 3 < FourInARow.ROW) { // up in 2 directions
-			if (col + 3 < FourInARow.COL &&
-					player == grid[row+1][col+1] && // look up & right
-					player == grid[row+2][col+2] &&
-					player == grid[row+3][col+3])
+		if (row + 3 < FourInARow.ROW) { // down in all 3 directions
+			if (player == grid[col][row+1] && // look down
+					player == grid[col][row+2] &&
+					player == grid[col][row+3])
 				return player;
 			if (col - 3 >= 0 &&
-					player == grid[row+1][col-1] && // look up & left
-					player == grid[row+2][col-2] &&
-					player == grid[row+3][col-3])
+					player == grid[col-1][row+1] && // look down & left
+					player == grid[col-2][row+2] &&
+					player == grid[col-3][row+3])
+				return player;
+			if (col + 3 < FourInARow.COL &&
+					player == grid[col+1][row+1] && // look down & right
+					player == grid[col+2][row+2] &&
+					player == grid[col+3][row+3])
 				return player;
 		}
 		
 		// left an right
 		if (col + 3 < FourInARow.COL &&
-				player == grid[row][col+1] && // look right
-				player == grid[row][col+2] &&
-				player == grid[row][col+3])
+				player == grid[col+1][row] && // look right
+				player == grid[col+2][row] &&
+				player == grid[col+3][row])
 			return player;
 		if (col - 3 >= 0 &&
-				player == grid[row][col-1] && // look left
-				player == grid[row][col-2] &&
-				player == grid[row][col-3])
+				player == grid[col-1][row] && // look left
+				player == grid[col-2][row] &&
+				player == grid[col-3][row])
 			return player;
 		
 		return 0; // no winner found

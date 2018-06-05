@@ -1,8 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class UserInterface extends Frame implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
 	public TextField textField1;
 	int lengthMatrix;
@@ -59,8 +59,7 @@ public class UserInterface extends Frame implements ActionListener{
 		gbl.setConstraints(label1, gbc);
 		textPanel.add(label1);
 		
-		textField1 = new TextField("-");
-		textField1.setEditable(false);
+		textField1 = new TextField("Player " + gameGrid.player);
 		
 		gbc.weightx = 6;
 		gbl.setConstraints(textField1, gbc);
@@ -83,36 +82,48 @@ public class UserInterface extends Frame implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent event) {
+		int status = 0;
 		rowPressed= event.getActionCommand();
 		switch(rowPressed) {
 		case "Spalte 0" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(0);
 			break;
 		case "Spalte 1" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(1);
 			break;
 		case "Spalte 2" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(2);
 			break;
 		case "Spalte 3" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(3);
 			break;
 		case "Spalte 4" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(4);
 			break;
 		case "Spalte 5" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(5);
 			break;
 		case "Spalte 6" :
-			gameGrid.placeStone(0, gameGrid.player);
+			status = gameGrid.placeStone(6);
 			break;
 		default:
 			System.out.println("Invalid button press");
 			break;
 			
 		}
+		
+		if (status == -1) {
+			textField1.setText("Column is full");
+		}else if(status == 1) {
+			textField1.setText("Player 1 has won");
+			gameGrid = new GameGrid();
+		}else if(status == 2) {
+			textField1.setText("Player 2 has won");
+			gameGrid = new GameGrid();
+		}else {
+			textField1.setText("Player " + gameGrid.player);
+		}
 		gameMatrix1.repaint();
-		textField1.setText(rowPressed);
 		
 	}
 }
