@@ -3,7 +3,7 @@ public class FourInARow {
 	final static int COL = 7;
 	final static int ROW = 6;
 	final static int DOTRADIUS = 200;
-	final static int DOTSPACE = 20;
+	final static int DOTSPACE = 50;
 	
 	FourInARow(){
 		

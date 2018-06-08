@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
-public class UserInterface extends Frame implements ActionListener{
+public class UserInterface extends Frame implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
 	public TextField textField1;
@@ -15,22 +15,9 @@ public class UserInterface extends Frame implements ActionListener{
 		int xOffset = FourInARow.COL-1;
 		int yOffset = FourInARow.ROW-1;
 		int randHeight = 77;
-
-		//Add buttons to select row
-		Panel buttonPanel = new Panel();
-		buttonPanel.setLayout(new GridLayout(1,FourInARow.COL));
-		for(int i = 0; i < FourInARow.COL; i++) {
-			Button button = new Button("Spalte " + i);
-			button.addActionListener(this);
-			buttonPanel.add(button);
-		}
-		add(BorderLayout.NORTH, buttonPanel);
-
 		
 		gameMatrix1 = new GameCanvas(this);
 		add(BorderLayout.CENTER, gameMatrix1);		
-
-		//to repaint: gameMatrix1.paint
 		
 		//Add text field
 		Panel textPanel = new Panel();
@@ -61,43 +48,19 @@ public class UserInterface extends Frame implements ActionListener{
 			}
 		});
 		
-		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL+1)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW+1)*FourInARow.DOTSPACE + randHeight);
+		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW)*FourInARow.DOTSPACE + randHeight);
 		setResizable(false);
 		setVisible(true);
 
 	}
 
-	public void actionPerformed(ActionEvent event) {
-		int status = 0;
-		rowPressed= event.getActionCommand();
-		switch(rowPressed) {
-		case "Spalte 0" :
-			status = gameGrid.placeStone(0);
-			break;
-		case "Spalte 1" :
-			status = gameGrid.placeStone(1);
-			break;
-		case "Spalte 2" :
-			status = gameGrid.placeStone(2);
-			break;
-		case "Spalte 3" :
-			status = gameGrid.placeStone(3);
-			break;
-		case "Spalte 4" :
-			status = gameGrid.placeStone(4);
-			break;
-		case "Spalte 5" :
-			status = gameGrid.placeStone(5);
-			break;
-		case "Spalte 6" :
-			status = gameGrid.placeStone(6);
-			break;
-		default:
-			System.out.println("Invalid button press");
-			break;
-			
-		}
-		
+	public void mouseClicked(MouseEvent e) {
+		int xPos = e.getX();
+		System.out.println(xPos);
+		System.out.println((FourInARow.DOTRADIUS + FourInARow.DOTSPACE));
+		int col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
+		System.out.println(col);
+		int status = gameGrid.placeStone(col);
 		if (status == -1) {
 			textField1.setText("Column is full");
 		}else if(status == 1) {
@@ -109,7 +72,11 @@ public class UserInterface extends Frame implements ActionListener{
 		}else {
 			textField1.setText("Player " + gameGrid.player);
 		}
-		gameMatrix1.repaint();
-		
+		gameMatrix1.repaint();	
 	}
+	
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 }
