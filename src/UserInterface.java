@@ -14,7 +14,6 @@ public class UserInterface extends Frame implements MouseListener{
 		super(Title);
 		int xOffset = FourInARow.COL-1;
 		int yOffset = FourInARow.ROW-1;
-		int randHeight = 77;
 		
 		gameMatrix1 = new GameCanvas(this);
 		add(BorderLayout.CENTER, gameMatrix1);		
@@ -48,10 +47,9 @@ public class UserInterface extends Frame implements MouseListener{
 			}
 		});
 		
-		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW)*FourInARow.DOTSPACE + randHeight);
+		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW)*FourInARow.DOTSPACE + FourInARow.GAMELOGSPACE);
 		setResizable(false);
 		setVisible(true);
-
 	}
 
 	public void mouseClicked(MouseEvent e) {

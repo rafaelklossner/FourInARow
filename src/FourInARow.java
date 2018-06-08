@@ -4,6 +4,7 @@ public class FourInARow {
 	final static int ROW = 6;
 	final static int DOTRADIUS = 200;
 	final static int DOTSPACE = 50;
+	final static int GAMELOGSPACE = 70;
 	
 	FourInARow(){
 		
