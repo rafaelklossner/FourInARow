@@ -14,7 +14,7 @@ public class GameCanvas extends Canvas{
 
 		//draw Background
 		grid.setColor(Color.BLUE);
-		grid.fillRect(0, 0, FourInARow.COL*(2*FourInARow.DOTRADIUS), FourInARow.ROW*(2*FourInARow.DOTRADIUS));
+		grid.fillRect(0, 0, FourInARow.COL*(2*FourInARow.DOTRADIUS) + (FourInARow.COL+1)*FourInARow.DOTSPACE, FourInARow.ROW*(2*FourInARow.DOTRADIUS) + (FourInARow.ROW+1)*FourInARow.DOTSPACE);
 
 		//draw Dots
 		for(int y = 0; y < FourInARow.ROW; y++) {
@@ -29,8 +29,7 @@ public class GameCanvas extends Canvas{
 					grid.setColor(Color.WHITE);
 				}
 
-				grid.fillOval(x*FourInARow.DOTRADIUS, (y)*FourInARow.DOTRADIUS, FourInARow.DOTRADIUS, FourInARow.DOTRADIUS);
-
+				grid.fillOval(x*FourInARow.DOTRADIUS + (x+1)*FourInARow.DOTSPACE, y*FourInARow.DOTRADIUS + (y+1)*FourInARow.DOTSPACE, FourInARow.DOTRADIUS, FourInARow.DOTRADIUS);
 			}
 		}
 	}

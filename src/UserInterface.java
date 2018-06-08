@@ -5,35 +5,21 @@ public class UserInterface extends Frame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
 	public TextField textField1;
-	int lengthMatrix;
-	int heightMatrix;
-	int dotRadius;	//responsible for Window Size
 	int gameBoard [][];
 	
-	public GameGrid gameGrid = new GameGrid();
-	
+	public GameGrid gameGrid = new GameGrid(); //Erzeugen eines Spielfeldes
 	GameCanvas gameMatrix1;
-	UserInterface(String Title,int lengthMatrix, int heightMatrix, int dotRadius){
-		super(Title);
-		this.lengthMatrix = lengthMatrix;
-		this.heightMatrix = heightMatrix;
-		this.dotRadius = dotRadius;	//responsible for Window Size
-		int xOffset = lengthMatrix-1;
-		int yOffset = heightMatrix-1;
-		int randHeight = 77;
 	
-		/*
-		//Testing, gameBoard contains position of stones
-		int gameBoard [][]=new int [lengthMatrix][heightMatrix];
-		gameBoard[0][1]=1;
-		gameBoard[0][2]=2;
-		gameBoard[5][2]=2;
-		*/
+	UserInterface(String Title){
+		super(Title);
+		int xOffset = FourInARow.COL-1;
+		int yOffset = FourInARow.ROW-1;
+		int randHeight = 77;
 
 		//Add buttons to select row
 		Panel buttonPanel = new Panel();
-		buttonPanel.setLayout(new GridLayout(1,lengthMatrix));
-		for(int i = 0; i < lengthMatrix; i++) {
+		buttonPanel.setLayout(new GridLayout(1,FourInARow.COL));
+		for(int i = 0; i < FourInARow.COL; i++) {
 			Button button = new Button("Spalte " + i);
 			button.addActionListener(this);
 			buttonPanel.add(button);
@@ -41,7 +27,7 @@ public class UserInterface extends Frame implements ActionListener{
 		add(BorderLayout.NORTH, buttonPanel);
 
 		
-		gameMatrix1 = new GameCanvas(this /*Color.BLUE, lengthMatrix, heightMatrix, dotRadius, gameBoard*/);
+		gameMatrix1 = new GameCanvas(this);
 		add(BorderLayout.CENTER, gameMatrix1);		
 
 		//to repaint: gameMatrix1.paint
@@ -75,7 +61,7 @@ public class UserInterface extends Frame implements ActionListener{
 			}
 		});
 		
-		setSize(lengthMatrix*dotRadius + xOffset ,heightMatrix*dotRadius + yOffset + randHeight);
+		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL+1)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW+1)*FourInARow.DOTSPACE + randHeight);
 		setResizable(false);
 		setVisible(true);
 
