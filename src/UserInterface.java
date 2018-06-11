@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
-public class UserInterface extends Frame implements MouseListener{
+public class UserInterface extends Frame implements MouseListener, MouseMotionListener{
 	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
 	public TextField textField1;
@@ -77,4 +77,12 @@ public class UserInterface extends Frame implements MouseListener{
 	public void mouseExited(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
+
+	public void mouseDragged(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {
+		int xPos = e.getX();
+		int col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
+		gameGrid.placeHighlightBar(col);
+		gameMatrix1.repaint();	
+	}
 }

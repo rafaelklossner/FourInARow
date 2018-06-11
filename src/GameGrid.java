@@ -5,6 +5,7 @@
 public class GameGrid {
 
 	int grid[][];
+	int posHighlightBar;
 	int player;
 
 	GameGrid(){
@@ -15,6 +16,7 @@ public class GameGrid {
 			}
 		}
 		player = 1;
+		posHighlightBar = 0;
 	}
 
 	/**
@@ -123,5 +125,9 @@ public class GameGrid {
 	 */
 	public int[][] getGrid() {
 		return grid;
+	}
+	
+	public void placeHighlightBar(int col) {
+		posHighlightBar = col;
 	}
 }
