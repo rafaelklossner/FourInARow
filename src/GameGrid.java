@@ -6,7 +6,10 @@ public class GameGrid {
 
 	int grid[][];
 	int posHighlightBar;
+	int posMenuHighlightBar;
 	int player;
+	boolean playing = false;
+	boolean menu = true;
 
 	GameGrid(){
 		grid = new int[FourInARow.COL][FourInARow.ROW];
@@ -129,5 +132,9 @@ public class GameGrid {
 	
 	public void placeHighlightBar(int col) {
 		posHighlightBar = col;
+	}
+	
+	public void placeMenuHighlightBar(int choice) {
+		posMenuHighlightBar = choice;
 	}
 }
