@@ -58,7 +58,7 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		int col = 0;
 		int status = -2;
 		int choice = -1;
-		if(gameGrid.playing == true) {
+		if(gameGrid.gameState == GameState.Play) {
 			col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
 			status = gameGrid.placeStone(col);
 			gameMatrix1.repaint();
@@ -66,23 +66,26 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 				textField1.setText("Column is full");
 			}else if(status == 1) {
 				textField1.setText("Player 1 has won");
-				gameGrid.playing = false;
-				//gameGrid.menu = false;
+				gameGrid.gameState = GameState.Won;
 			}else if(status == 2) {
 				textField1.setText("Player 2 has won");
-				gameGrid.playing = false;
-				//gameGrid.menu = false;
+				gameGrid.gameState = GameState.Won;
 			}else {
 				textField1.setText("Player " + gameGrid.player);
 			}
-		}else {
+		}else if(gameGrid.gameState == GameState.Menu){
 			choice = yPos / (2*(FourInARow.DOTRADIUS + 2*FourInARow.DOTSPACE));
 			if (choice == 0) {
 				gameGrid = new GameGrid();
-				gameGrid.playing = true;
+				textField1.setText("Player " + gameGrid.player);
+				gameGrid.gameState = GameState.Play;
 				gameMatrix1.repaint();
 			}
-		}	
+		}else if(gameGrid.gameState == GameState.Won){
+			textField1.setText("Menu");
+			gameMatrix1.repaint();
+			gameGrid.gameState = GameState.Menu;
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {}
@@ -94,11 +97,11 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 	public void mouseMoved(MouseEvent e) {
 		int xPos = e.getX();
 		int yPos = e.getY();
-		if(gameGrid.playing == true) {
+		if(gameGrid.gameState == GameState.Play) {
 			int col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
 			gameGrid.placeHighlightBar(col);
-			gameMatrix1.repaint();	
-		}else {
+			textField1.setText("Player " + gameGrid.player);	
+		}else if(gameGrid.gameState == GameState.Menu){
 			int choice = yPos / (2*(FourInARow.DOTRADIUS + FourInARow.DOTSPACE));
 			gameGrid.placeMenuHighlightBar(choice);
 		}

@@ -6,6 +6,7 @@ import java.awt.Image;
 
 public class GameCanvas extends Canvas{
 	private static final long serialVersionUID = 1L;
+	private final int step = (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
 	private UserInterface userInterface;
 
 	GameCanvas(UserInterface userInterface){
@@ -22,13 +23,15 @@ public class GameCanvas extends Canvas{
 		Image bufferedImage = createImage (getWidth(), getHeight());
 		Graphics g = bufferedImage.getGraphics();
 
-		if(userInterface.gameGrid.playing == true) {
+		if(userInterface.gameGrid.gameState == GameState.Play || userInterface.gameGrid.gameState == GameState.Won) {
 			//draw Background
 			grid.setColor(Color.BLUE);
 			grid.fillRect(0, 0, FourInARow.COL*(2*FourInARow.DOTRADIUS) + (FourInARow.COL+1)*FourInARow.DOTSPACE, FourInARow.ROW*(2*FourInARow.DOTRADIUS) + (FourInARow.ROW+1)*FourInARow.DOTSPACE);
 			//draw highlightbar
-			grid.setColor(Color.lightGray);
-			grid.fillRect(userInterface.gameGrid.posHighlightBar * (FourInARow.DOTRADIUS + FourInARow.DOTSPACE), 0, FourInARow.DOTRADIUS + FourInARow.DOTSPACE, FourInARow.DOTRADIUS * FourInARow.COL + 2*FourInARow.DOTSPACE);
+			if (userInterface.gameGrid.gameState == GameState.Play) {
+				grid.setColor(Color.lightGray);
+				grid.fillRect(userInterface.gameGrid.posHighlightBar * (FourInARow.DOTRADIUS + FourInARow.DOTSPACE), 0, FourInARow.DOTRADIUS + FourInARow.DOTSPACE, FourInARow.DOTRADIUS * FourInARow.COL + 2*FourInARow.DOTSPACE);
+			}
 			//draw Dots
 			for(int y = 0; y < FourInARow.ROW; y++) {
 				for(int x = 0; x < FourInARow.COL; x++) {
@@ -44,7 +47,53 @@ public class GameCanvas extends Canvas{
 					grid.fillOval(x*FourInARow.DOTRADIUS + (x+1)*FourInARow.DOTSPACE - FourInARow.DOTSPACE/2, y*FourInARow.DOTRADIUS + (y+1)*FourInARow.DOTSPACE - FourInARow.DOTSPACE/2, FourInARow.DOTRADIUS, FourInARow.DOTRADIUS);
 				}
 			}
-		}else if(userInterface.gameGrid.menu == true) {
+			if (userInterface.gameGrid.gameState == GameState.Won) {
+				int right = 0;
+				int up = 0;
+				grid.setColor(Color.GREEN);
+				Direction direction = userInterface.gameGrid.direction;
+				switch(direction) {
+				case Up : 
+					up = -3;
+					right = 0;
+					break;
+				case UpLeft :
+					up = -3;
+					right = -3;
+					break;
+				case UpRight :
+					up = -3;
+					right = 3;
+					break;
+				case Down : 
+					up = 3;
+					right = 0;
+					break;
+				case DownLeft : 
+					up = 3;
+					right = -3;
+					break;
+				case DownRight : 
+					up = 3;
+					right = 3;
+					break;
+				case Left : 
+					up = 0;
+					right = -3;
+					break;
+				case Right :
+					up = 0;
+					right = 3;
+					break;
+				default:
+					break;
+				}
+				System.out.println("Col: " + userInterface.gameGrid.lastStoneCol);
+				System.out.println("Row: " + userInterface.gameGrid.lastStoneRow);
+				grid.drawLine ((userInterface.gameGrid.lastStoneCol)*step + step/2, (userInterface.gameGrid.lastStoneRow)*step + step/2,
+						(userInterface.gameGrid.lastStoneCol + right)*step + step/2, (userInterface.gameGrid.lastStoneRow + up)*step + step/2);
+			}
+		}else if(userInterface.gameGrid.gameState == GameState.Menu) {
 			//draw Background
 			grid.setColor(Color.BLUE);
 			grid.fillRect(0, 0, FourInARow.COL*(2*FourInARow.DOTRADIUS) + (FourInARow.COL+1)*FourInARow.DOTSPACE, FourInARow.ROW*(2*FourInARow.DOTRADIUS) + (FourInARow.ROW+1)*FourInARow.DOTSPACE);

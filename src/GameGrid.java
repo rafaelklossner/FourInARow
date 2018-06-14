@@ -8,8 +8,10 @@ public class GameGrid {
 	int posHighlightBar;
 	int posMenuHighlightBar;
 	int player;
-	boolean playing = false;
-	boolean menu = true;
+	int lastStoneCol;
+	int lastStoneRow;
+	GameState gameState;
+	Direction direction;
 
 	GameGrid(){
 		grid = new int[FourInARow.COL][FourInARow.ROW];
@@ -20,6 +22,7 @@ public class GameGrid {
 		}
 		player = 1;
 		posHighlightBar = 0;
+		gameState = GameState.Menu;
 	}
 
 	/**
@@ -33,17 +36,28 @@ public class GameGrid {
 		row = getRowIndex(col);
 		if(row >= 0) { // prüfe ob Platz frei
 			grid[col][row] = player;
-			System.out.println("col: " + col + " row: " + row);
-			if(player == 1) {
-				player = 2;
+			lastStoneCol = col;
+			lastStoneRow = row;
+			int playerOld = player;
+			changePlayer();
+			direction = checkWin(col, row);
+			if (direction != Direction.NoWin) {
+				return playerOld;
 			}else {
-				player = 1;
+				return 0;
 			}
-			System.out.println("checkWin result: " + checkWin(col, row));
-			return checkWin(col, row) ;
 		}else {
-			System.out.println("Col is full");
 			return -1; // Error
+		}
+	}
+	
+	
+	
+	private void changePlayer() {
+		if(player == 1) {
+			player = 2;
+		}else {
+			player = 1;
 		}
 	}
 
@@ -67,59 +81,59 @@ public class GameGrid {
 	 * @param col aktuelle Spalte (beginnt bei 0)
 	 * @param playerIndex or 0
 	 */
-	private int checkWin(int col, int row) {
+	private Direction checkWin(int col, int row) {
 		int player = grid[col][row];
 		if (player == 0) {
-			return player; // there is no stone
+			return Direction.NoWin; // there is no stone
 		}
 
 		if(row - 3 >= 0) { // up in all 3 directions
 			if (player == grid[col][row-1] && // look up
 					player == grid[col][row-2] &&
 					player == grid[col][row-3])
-				return player;
+				return Direction.Up;
 			if (col - 3 >= 0 &&
 					player == grid[col-1][row-1] && // look up & left
 					player == grid[col-2][row-2] &&
 					player == grid[col-3][row-3])
-				return player;
+				return Direction.UpLeft;
 			if (col + 3 < FourInARow.COL &&
 					player == grid[col+1][row-1] && // look up & right
 					player == grid[col+2][row-2] &&
 					player == grid[col+3][row-3])
-				return player;
+				return Direction.UpRight;
 		}
 
 		if (row + 3 < FourInARow.ROW) { // down in all 3 directions
 			if (player == grid[col][row+1] && // look down
 					player == grid[col][row+2] &&
 					player == grid[col][row+3])
-				return player;
+				return Direction.Down;
 			if (col - 3 >= 0 &&
 					player == grid[col-1][row+1] && // look down & left
 					player == grid[col-2][row+2] &&
 					player == grid[col-3][row+3])
-				return player;
+				return Direction.DownLeft;
 			if (col + 3 < FourInARow.COL &&
 					player == grid[col+1][row+1] && // look down & right
 					player == grid[col+2][row+2] &&
 					player == grid[col+3][row+3])
-				return player;
+				return Direction.DownRight;
 		}
 		
-		// left an right
+		// left and right
 		if (col + 3 < FourInARow.COL &&
 				player == grid[col+1][row] && // look right
 				player == grid[col+2][row] &&
 				player == grid[col+3][row])
-			return player;
+			return Direction.Right;
 		if (col - 3 >= 0 &&
 				player == grid[col-1][row] && // look left
 				player == grid[col-2][row] &&
 				player == grid[col-3][row])
-			return player;
+			return Direction.Left;
 		
-		return 0; // no winner found
+		return Direction.NoWin; // no winner found
 	}
 
 	/**
