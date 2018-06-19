@@ -88,8 +88,6 @@ public class GameCanvas extends Canvas{
 				default:
 					break;
 				}
-				System.out.println("Col: " + userInterface.gameGrid.lastStoneCol);
-				System.out.println("Row: " + userInterface.gameGrid.lastStoneRow);
 				grid.drawLine ((userInterface.gameGrid.lastStoneCol)*step + step/2, (userInterface.gameGrid.lastStoneRow)*step + step/2,
 						(userInterface.gameGrid.lastStoneCol + right)*step + step/2, (userInterface.gameGrid.lastStoneRow + up)*step + step/2);
 			}

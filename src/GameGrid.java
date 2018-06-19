@@ -31,7 +31,7 @@ public class GameGrid {
 	 * @param player Player der den Stein spielt
 	 * @return error Message (0=continue, 1 Player1 wins, 2 Player2 wins, -1 error)
 	 */
-	int placeStone(int col){
+	InPlayState placeStone(int col){
 		int row;
 		row = getRowIndex(col);
 		if(row >= 0) { // prüfe ob Platz frei
@@ -41,13 +41,19 @@ public class GameGrid {
 			int playerOld = player;
 			changePlayer();
 			direction = checkWin(col, row);
-			if (direction != Direction.NoWin) {
-				return playerOld;
+			if (direction == Direction.StandOff){
+				return InPlayState.StandOff;
+			}else if(direction == Direction.NoWin){
+				return InPlayState.NoWin;
 			}else {
-				return 0;
+				if (playerOld == 1) {
+					return InPlayState.Player1;
+				}else {
+					return InPlayState.Player2;	
+				}
 			}
 		}else {
-			return -1; // Error
+			return InPlayState.ColumnFull;
 		}
 	}
 	
@@ -133,7 +139,12 @@ public class GameGrid {
 				player == grid[col-3][row])
 			return Direction.Left;
 		
-		return Direction.NoWin; // no winner found
+		if (grid[0][0] != 0 && grid[1][0] != 0 && grid[2][0] != 0 && grid[3][0] != 0 && grid[4][0] != 0
+				&& grid[5][0] != 0 && grid[6][0] != 0) {
+			return Direction.StandOff;
+		}
+		
+		return Direction.NoWin; // no winner found, continue
 	}
 
 	/**

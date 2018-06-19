@@ -56,18 +56,20 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		int xPos = e.getX();
 		int yPos = e.getY();
 		int col = 0;
-		int status = -2;
 		int choice = -1;
 		if(gameGrid.gameState == GameState.Play) {
 			col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
-			status = gameGrid.placeStone(col);
+			InPlayState state = gameGrid.placeStone(col);
 			gameMatrix1.repaint();
-			if (status == -1) {
+			if (state == InPlayState.ColumnFull) {
 				textField1.setText("Column is full");
-			}else if(status == 1) {
+			}else if(state == InPlayState.StandOff) {
+				textField1.setText("Tie");
+				gameGrid.gameState = GameState.Won;
+			}else if(state == InPlayState.Player1) {
 				textField1.setText("Player 1 has won");
 				gameGrid.gameState = GameState.Won;
-			}else if(status == 2) {
+			}else if(state == InPlayState.Player2) {
 				textField1.setText("Player 2 has won");
 				gameGrid.gameState = GameState.Won;
 			}else {
