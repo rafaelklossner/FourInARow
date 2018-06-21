@@ -5,10 +5,8 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
 	public TextField textField1;
-	int gameBoard [][];
-
 	public GameGrid gameGrid = new GameGrid(); //Erzeugen eines Spielfeldes
-	GameCanvas gameMatrix1;
+	private GameCanvas gameMatrix1;
 
 	UserInterface(String Title){
 		super(Title);
@@ -52,8 +50,8 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		setVisible(true);
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		int xPos = e.getX();
+	
+	public void mouseReleased(MouseEvent e) {int xPos = e.getX();
 		int yPos = e.getY();
 		int col = 0;
 		int choice = -1;
@@ -89,13 +87,7 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 			gameGrid.gameState = GameState.Menu;
 		}
 	}
-
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
-
-	public void mouseDragged(MouseEvent e) {}
+	
 	public void mouseMoved(MouseEvent e) {
 		int xPos = e.getX();
 		int yPos = e.getY();
@@ -109,4 +101,10 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		}
 		gameMatrix1.repaint();
 	}
+	
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) {}
 }

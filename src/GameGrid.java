@@ -4,14 +4,14 @@
 
 public class GameGrid {
 
-	int grid[][];
-	int posHighlightBar;
-	int posMenuHighlightBar;
-	int player;
-	int lastStoneCol;
-	int lastStoneRow;
-	GameState gameState;
-	Direction direction;
+	public int grid[][];
+	public int posHighlightBar;
+	public int posMenuHighlightBar;
+	public int player;
+	public int lastStoneCol;
+	public int lastStoneRow;
+	public GameState gameState;
+	public Direction direction;
 
 	GameGrid(){
 		grid = new int[FourInARow.COL][FourInARow.ROW];
@@ -31,7 +31,7 @@ public class GameGrid {
 	 * @param player Player der den Stein spielt
 	 * @return error Message (0=continue, 1 Player1 wins, 2 Player2 wins, -1 error)
 	 */
-	InPlayState placeStone(int col){
+	public InPlayState placeStone(int col){
 		int row;
 		row = getRowIndex(col);
 		if(row >= 0) { // prüfe ob Platz frei

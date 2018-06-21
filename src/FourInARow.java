@@ -1,10 +1,10 @@
 
 public class FourInARow {
-	final static int COL = 7;
-	final static int ROW = 6;
-	final static int DOTRADIUS = 100;
-	final static int DOTSPACE = 25;
-	final static int GAMELOGSPACE = 70;
+	public final static int COL = 7;
+	public final static int ROW = 6;
+	public final static int DOTRADIUS = 100;
+	public final static int DOTSPACE = 25;
+	public final static int GAMELOGSPACE = 70;
 	
 	FourInARow(){
 		
