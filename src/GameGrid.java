@@ -1,5 +1,7 @@
 	/**
 	 * Diese Modul realiert die Funktionalitäten rund um das Grid (Spielfeld)
+	 * Zudem enthält es Informationen zu den Steinen und Positionen der Auswahlbalken in Spiel und Menu.
+	 * Zusätzlich ist auch der aktuelle Spielzustand gespeichert.
 	 */
 
 public class GameGrid {
@@ -13,6 +15,10 @@ public class GameGrid {
 	public GameState gameState;
 	public Direction direction;
 
+	/**
+	 * Konstruktor initialisiert das Spielfeldarray grid, setzt den Spieler der am Zug ist auf Spieler 1 und
+	 * lässt das Spiel mit dem Menu Fenster beginnen.
+	 */
 	GameGrid(){
 		grid = new int[FourInARow.COL][FourInARow.ROW];
 		for(int col=0; col < FourInARow.COL; col++) { // init grid
@@ -28,8 +34,7 @@ public class GameGrid {
 	/**
 	 * Platziert den Stein in der ersten freien Linie in der Spalte
 	 * @param col gibt die Spalte an an der der Stein gesetzt werden soll (beginnt bei 0)
-	 * @param player Player der den Stein spielt
-	 * @return error Message (0=continue, 1 Player1 wins, 2 Player2 wins, -1 error)
+	 * @return InPlayState Rückmeldung wie das Spiel weiter gehen soll (Unentschieden, witer spielen, Sieg, volle Spalte)
 	 */
 	public InPlayState placeStone(int col){
 		int row;
@@ -57,8 +62,9 @@ public class GameGrid {
 		}
 	}
 	
-	
-	
+	/**
+	 * Wechselt den Spieler der am Zug ist.
+	 */
 	private void changePlayer() {
 		if(player == 1) {
 			player = 2;
@@ -82,10 +88,11 @@ public class GameGrid {
 	}
 
 	/**
-	 * Prüft ob durch den aktuellen Stein jemand gewonnen hat
+	 * Prüft ob durch den aktuellen Stein jemand gewonnen hat und
+	 * gibt die Siegrichtung, zur darstellung zurück.
 	 * @param row aktuelle Reihe (beginnt bei 0)
 	 * @param col aktuelle Spalte (beginnt bei 0)
-	 * @param playerIndex or 0
+	 * @return Direction Siegrichtung, Unentscheden wenn Spielfeld voll oder kein Sieger 
 	 */
 	private Direction checkWin(int col, int row) {
 		int player = grid[col][row];
@@ -155,10 +162,18 @@ public class GameGrid {
 		return grid;
 	}
 	
+	/**
+	 * Verändert die Position vom Auswahlbalken im Spiel.
+	 * @param col
+	 */
 	public void placeHighlightBar(int col) {
 		posHighlightBar = col;
 	}
 	
+	/**
+	 * Verändert die Position vom Auswahlbalken im Menu
+	 * @param choice
+	 */
 	public void placeMenuHighlightBar(int choice) {
 		posMenuHighlightBar = choice;
 	}

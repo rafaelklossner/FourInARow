@@ -1,6 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Diese Klasse erbt von Frame und implementiert die Methoden der Klassen
+ * MouseListener und MouseMotionListener.
+ * Die Klasse stellt sämtliche Schnittstellen zum User bereit. Dies sind:
+ * Bildschirm (Frame) und Maus.
+ */
 public class UserInterface extends Frame implements MouseListener, MouseMotionListener{
 	private static final long serialVersionUID = 1L;
 	public String rowPressed = null;
@@ -8,20 +14,23 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 	public GameGrid gameGrid = new GameGrid(); //Erzeugen eines Spielfeldes
 	private GameCanvas gameMatrix1;
 
+	/**
+	 * Der Konstruktor von UserInterface fügt das Canvas mit dem Spielfeld und
+	 * das Gamelog am unteren Rand zum Frame hinzu.
+	 * @param Title
+	 */
 	UserInterface(String Title){
-		super(Title);
-		int xOffset = FourInARow.COL-1;
-		int yOffset = FourInARow.ROW-1;
-
-		gameMatrix1 = new GameCanvas(this);
+		super(Title); //Titel an Konsruktor von Frame übergeben
+		
+		//Canvas erzeugen und zum Frame hinzufügen
+		gameMatrix1 = new GameCanvas(this); //Referenz auf das Objekt userInterface übergeben.
 		add(BorderLayout.CENTER, gameMatrix1);		
 
-		//Add text field
+		//Gamelog am unteren Rand hinzufügen
 		Panel textPanel = new Panel();
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints gbc = new GridBagConstraints();
 		textPanel.setLayout(gbl);
-
 		gbc.fill = GridBagConstraints.BOTH;
 
 		Label label1 = new Label("Game Log");
@@ -37,28 +46,38 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		textPanel.add(textField1);
 		add(BorderLayout.SOUTH, textPanel);
 
-
-
 		addWindowListener( new WindowAdapter() {
 			public void windowClosing(WindowEvent event) {
 				System.exit(0);
 			}
 		});
-
-		setSize(FourInARow.COL*FourInARow.DOTRADIUS + xOffset + (FourInARow.COL)*FourInARow.DOTSPACE ,FourInARow.ROW*FourInARow.DOTRADIUS + yOffset + (FourInARow.ROW)*FourInARow.DOTSPACE + FourInARow.GAMELOGSPACE);
-		setResizable(false);
+		
+		// Dynamische Berechung der Framegrösse aus den Konstanten
+		setSize(FourInARow.COL*FourInARow.DOTRADIUS + FourInARow.COL-1 + (FourInARow.COL)*FourInARow.DOTSPACE ,
+				FourInARow.ROW*FourInARow.DOTRADIUS + FourInARow.ROW-1 + (FourInARow.ROW)*FourInARow.DOTSPACE + FourInARow.GAMELOGSPACE);
+		
+		setResizable(false); //Skalierung sperren
 		setVisible(true);
 	}
 
-	
-	public void mouseReleased(MouseEvent e) {int xPos = e.getX();
+	/**
+	 * Diese Methode reagiert auf das Loslassen der Maustaste.
+	 * Damit wird die Eingabe durch den User ermöglicht.
+	 * @param MouseEvent e
+	 */
+	public void mouseReleased(MouseEvent e) {
+		//Speichern der Mausposition
+		int xPos = e.getX();
 		int yPos = e.getY();
 		int col = 0;
 		int choice = -1;
+		
+		//Wenn das Spiel läuft
 		if(gameGrid.gameState == GameState.Play) {
-			col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE);
-			InPlayState state = gameGrid.placeStone(col);
+			col = xPos / (FourInARow.DOTRADIUS + FourInARow.DOTSPACE); //Berechung der angeklickten Spalte
+			InPlayState state = gameGrid.placeStone(col); //Stein setzen und Ergebnis abfangen
 			gameMatrix1.repaint();
+			//Fallunterscheidung für Reihe voll, Unentschieden, Gewinn oder weiter spielen
 			if (state == InPlayState.ColumnFull) {
 				textField1.setText("Column is full");
 			}else if(state == InPlayState.StandOff) {
@@ -73,6 +92,7 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 			}else {
 				textField1.setText("Player " + gameGrid.player);
 			}
+		//Wenn in menu
 		}else if(gameGrid.gameState == GameState.Menu){
 			choice = yPos / (2*(FourInARow.DOTRADIUS + 2*FourInARow.DOTSPACE));
 			if (choice == 0) {
@@ -81,6 +101,7 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 				gameGrid.gameState = GameState.Play;
 				gameMatrix1.repaint();
 			}
+		//Wenn ein Spieler gerade gewonnen
 		}else if(gameGrid.gameState == GameState.Won){
 			textField1.setText("Menu");
 			gameMatrix1.repaint();
@@ -88,6 +109,13 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		}
 	}
 	
+	/**
+	 * Diese Methode reagiert auf die Mausbewegung.
+	 * Sie bewegt den Auswahlbalken auf dem Spielfeld und dem Menu.
+	 * Je nach Zustand, Play oder Menu, wird der eine oder andere Balken
+	 * neu berechnet.
+	 * @param MouseEvent e
+	 */
 	public void mouseMoved(MouseEvent e) {
 		int xPos = e.getX();
 		int yPos = e.getY();
@@ -102,6 +130,7 @@ public class UserInterface extends Frame implements MouseListener, MouseMotionLi
 		gameMatrix1.repaint();
 	}
 	
+	//Implemantation der nichtbenötigten Methoden
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
